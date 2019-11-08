@@ -6,6 +6,7 @@
 package Buisiness;
 
 import Entities.Competence;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import repositories.CompetenceFacadeLocal;
@@ -25,4 +26,11 @@ public class GestionCompetences implements GestionCompetencesLocal {
         c.setNomCompetence(nom);
         cf.create(c);
     }
+
+    @Override
+    public List<Competence> getCompetences() {
+       return cf.findAll();
+    }
+     
+     
 }

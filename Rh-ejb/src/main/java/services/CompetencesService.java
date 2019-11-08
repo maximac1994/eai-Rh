@@ -7,6 +7,8 @@ package services;
 
 import Buisiness.GestionCompetences;
 import Buisiness.GestionCompetencesLocal;
+import Entities.Competence;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -25,4 +27,9 @@ public class CompetencesService implements CompetencesServiceLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public List<Competence> getCompetences() {
+      return gcl.getCompetences();
+    }
 }

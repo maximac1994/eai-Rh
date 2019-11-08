@@ -5,16 +5,18 @@
  */
 package services;
 
-import Entities.Competence;
+import Entities.Formateur;
 import java.util.List;
 import javax.ejb.Local;
+import resources.CompetenceResource;
+import resources.FormateurResource;
 
 /**
  *
  * @author Maxime
  */
 @Local
-public interface CompetencesServiceLocal {
-    public void addCompetence(String nom);
-    public List<Competence> getCompetences();
+public interface FormateurServiceLocal {
+    public List<Formateur> getFormateurs();
+    public void addFormateur(FormateurResource formateurResource);
 }

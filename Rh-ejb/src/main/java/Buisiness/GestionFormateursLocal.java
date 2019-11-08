@@ -5,16 +5,18 @@
  */
 package Buisiness;
 
-import Entities.Competence;
+import Entities.Formateur;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
+import resources.CompetenceResource;
 
 /**
  *
  * @author Maxime
  */
 @Local
-public interface GestionCompetencesLocal {
-    public void addCompetence(String nom);
-    public List<Competence> getCompetences();
+public interface GestionFormateursLocal {
+    public List<Formateur> getFormateurs();
+    public void addFormateur(String nom, String prenom,List<CompetenceResource> competences);
 }

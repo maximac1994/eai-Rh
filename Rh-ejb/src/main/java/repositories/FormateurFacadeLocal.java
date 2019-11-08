@@ -27,7 +27,7 @@ public interface FormateurFacadeLocal {
     List<Formateur> findAll();
 
     List<Formateur> findRange(int[] range);
-
+    
     int count();
     
 }
