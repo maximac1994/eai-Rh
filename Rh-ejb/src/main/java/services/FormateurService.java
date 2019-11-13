@@ -7,6 +7,7 @@ package services;
 
 import Buisiness.GestionFormateursLocal;
 import Entities.Formateur;
+import exceptions.UnknownFormateurException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,6 +31,11 @@ GestionFormateursLocal gfl;
     @Override
     public void addFormateur(FormateurResource fr) {
      gfl.addFormateur(fr.getNom(), fr.getPrenom(), fr.getCompetences());
+    }
+
+    @Override
+    public void removeFormateur(int id) throws  UnknownFormateurException{
+        gfl.removeFormateur(id);
     }
 
    

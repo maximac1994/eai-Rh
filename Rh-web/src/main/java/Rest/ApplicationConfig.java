@@ -36,7 +36,6 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(Rest.CompetenceRest.class);
         resources.add(Rest.FormateurRest.class);
-        resources.add(Rest.Test.class);
     }
 
 }

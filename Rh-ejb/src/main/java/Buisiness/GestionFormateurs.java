@@ -5,6 +5,7 @@
  */
 package Buisiness;
 
+import exceptions.UnknownFormateurException;
 import Entities.Formateur;
 import Entities.Niveau;
 import Entities.NiveauPK;
@@ -50,6 +51,15 @@ public class GestionFormateurs implements GestionFormateursLocal {
             nfl.create(n);
         }
         
+    }
+
+    @Override
+    public void removeFormateur(int id) throws UnknownFormateurException{
+      Formateur f = ffl.find(id);
+      if(f==null){
+          throw new UnknownFormateurException();
+      }
+      ffl.remove(f);
     }
     
 }

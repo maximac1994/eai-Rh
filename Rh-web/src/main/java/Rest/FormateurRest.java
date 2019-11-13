@@ -5,23 +5,27 @@
  */
 package Rest;
 
-import Entities.Competence;
 import Entities.Formateur;
 import com.google.gson.Gson;
+import com.sun.org.glassfish.gmbal.ParameterNames;
+import exceptions.UnknownFormateurException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import resources.FormateurResource;
-import services.CompetencesServiceLocal;
 import services.FormateurServiceLocal;
 
 /**
@@ -43,17 +47,29 @@ public class FormateurRest {
     }
     
      @GET
-    public String getFormateurs() {
+    public Response getFormateurs() {
         List<Formateur> liste = formateurService.getFormateurs();
-        return gson.toJson(liste);
+        return Response.ok(gson.toJson(liste)).build();
     }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addFormateur(String formateur) {
-        System.out.println(formateur);
+    public Response addFormateur(String formateur) {
         FormateurResource fr = gson.fromJson(formateur, FormateurResource.class);
         formateurService.addFormateur(fr);
+        return Response.ok("Formateur ajouté avec succès").build();
+    }
+    
+    @DELETE
+    public Response removeFormateur(@QueryParam("idFormateur") int idFormateur) {
+        
+        System.out.println("ca marche"+idFormateur);
+        try {
+            formateurService.removeFormateur(idFormateur);
+        } catch (UnknownFormateurException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("le formateur n'existe pas").build();
+        }
+        return Response.ok("Formateur supprimé avec succes").build();
     }
     
     
