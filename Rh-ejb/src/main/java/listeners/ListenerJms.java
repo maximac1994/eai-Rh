@@ -71,12 +71,18 @@ public class ListenerJms {
             while (run) {
                 Message message = receiver.receive();
                 if (message instanceof ObjectMessage) {
-                    if("annule".equals(message.getJMSType())){
+                    if("annulation".equals(message.getJMSType())){
                         EvenementFormation ev = (EvenementFormation)((ObjectMessage) message).getObject();
-                        System.out.println(ev);
+                        // remove dates salle / formateur
+                    } else
+                    if("validation".equals(message.getJMSType())){
+                        EvenementFormation ev = (EvenementFormation)((ObjectMessage) message).getObject();
+                        // set etat occupe salle / formateur
+                    } else
+                    if("projet2".equals(message.getJMSType())){
+                        EvenementFormation ev = (EvenementFormation)((ObjectMessage) message).getObject();
+                        // set etat pressenti salle / formateur
                     }
-                } else if (message != null) {
-                    System.out.println("Received non object message");
                 }
             }
         } catch (JMSException exception) {
