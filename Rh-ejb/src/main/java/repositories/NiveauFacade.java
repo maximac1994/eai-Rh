@@ -6,6 +6,7 @@
 package repositories;
 
 import Entities.Niveau;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,13 @@ public class NiveauFacade extends AbstractFacade<Niveau> implements NiveauFacade
 
     public NiveauFacade() {
         super(Niveau.class);
+    }
+    
+    public List<Niveau> getNiveaux(int idF){
+        return(
+        em.createNamedQuery("Niveau.findByIdFormateur")
+                .setParameter("idFormateur", idF)
+                .getResultList());
     }
     
 }

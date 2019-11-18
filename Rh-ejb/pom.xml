@@ -28,8 +28,9 @@
         </dependency>
         <dependency>
             <groupId>ProjetJEE</groupId>
-    <artifactId>Shared</artifactId>
-    <version>1.0-SNAPSHOT</version>
+            <artifactId>Shared</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -43,16 +44,6 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-        		<dependency>
-												<groupId>org.glassfish.main.appclient</groupId>
-												<artifactId>gf-client</artifactId>
-												<version>5.0</version>
-								</dependency>
-								<dependency>
-												<groupId>org.glassfish.mq</groupId>
-												<artifactId>imqjmsra</artifactId>
-												<version>5.0</version>
-								</dependency>
     </dependencies>
 
     <build>

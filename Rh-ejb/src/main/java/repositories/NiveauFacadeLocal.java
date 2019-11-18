@@ -27,7 +27,8 @@ public interface NiveauFacadeLocal {
     List<Niveau> findAll();
 
     List<Niveau> findRange(int[] range);
-
+    
+    List<Niveau> getNiveaux(int idF);
     int count();
     
 }

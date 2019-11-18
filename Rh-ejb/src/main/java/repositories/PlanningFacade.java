@@ -6,6 +6,7 @@
 package repositories;
 
 import Entities.Planning;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,12 @@ public class PlanningFacade extends AbstractFacade<Planning> implements Planning
 
     public PlanningFacade() {
         super(Planning.class);
+    }
+    
+    public List<Planning> getDatesOccupe(int idF){
+    return(em.createNamedQuery("Planning.findByIdFormateur")
+                .setParameter("idFormateur", idF)
+                .getResultList());
     }
     
 }
