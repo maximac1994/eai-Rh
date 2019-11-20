@@ -10,6 +10,7 @@ import Entities.Formateur;
 import Entities.Niveau;
 import Entities.NiveauPK;
 import Entities.Planning;
+import Entities.PlanningPK;
 import MessagesTypes.CompetenceNec;
 import MessagesTypes.DemandeRessources;
 import MessagesTypes.EvenementFormationAnnulation;
@@ -35,7 +36,7 @@ import senders.FileListeRessources;
  */
 @Stateless
 public class GestionFormateurs implements GestionFormateursLocal {
-    
+
     @EJB
     FormateurFacadeLocal ffl;
     @EJB
@@ -126,29 +127,50 @@ public class GestionFormateurs implements GestionFormateursLocal {
 
     @Override
     public void changeState(EvenementFormationAnnulation efa,String etat) {
-        
-    }
-
-    @Override
-    public void removeState(EvenementFormationAnnulation efa) {
-        List<Planning> lp = pfl.getDatesOccupe(efa.getIdFormateur());
-        List<Date> datesToRemove = new ArrayList<Date>();
         Date dateJour = efa.getDateDebut();
         int days = efa.getDuree();
         while(days >0){
             DateFormat df = new SimpleDateFormat("EEEE");
             String day = df.format(dateJour);
-            if( (!"Sunday".equals(day)) && (!"Saturday".equals(day))){
+            if( (!"samedi".equals(day)) && (!"dimanche".equals(day))){
+                List<Planning> lp = pfl.getPlanningJourFormateur(dateJour, efa.getIdFormateur());
                 for(Planning p : lp){
-                    if(p.getPlanningPK().getJour() == dateJour){
                     pfl.remove(p);
-                    }
                 }
+                Planning nP = new Planning();
+                    nP.setEtat(etat);
+                    PlanningPK pPK = new PlanningPK();
+                    pPK.setIdFormateur(efa.getIdFormateur());
+                    pPK.setJour(dateJour);
+                    nP.setPlanningPK(pPK);
+                    pfl.create(nP);
                 days--;
                 
+            }
+            
+            dateJour.setTime(dateJour.getTime()+(25*3600*1000));
+        }
+    }
+
+    @Override
+    public void removeState(EvenementFormationAnnulation efa) {
+        Date dateJour = efa.getDateDebut();
+        int days = efa.getDuree();
+        while(days >0){
+            DateFormat df = new SimpleDateFormat("EEEE");
+            String day = df.format(dateJour);
+            if( (!"samedi".equals(day)) && (!"dimanche".equals(day))){
+               List<Planning> lp = pfl.getPlanningJourFormateur(dateJour, efa.getIdFormateur());
+                for(Planning p : lp){
+                    System.out.println(p.getEtat());
+                    pfl.remove(p);
+                }
+                days--;
             }
             dateJour.setTime(dateJour.getTime()+(25*3600*1000));
         }
     }
+
+    
     
 }

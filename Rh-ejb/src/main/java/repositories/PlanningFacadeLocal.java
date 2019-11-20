@@ -6,6 +6,7 @@
 package repositories;
 
 import Entities.Planning;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -28,6 +29,7 @@ public interface PlanningFacadeLocal {
 
     List<Planning> findRange(int[] range);
 List<Planning> getDatesOccupe(int idF);
+public List<Planning> getPlanningJourFormateur(Date jour,int idF);
     int count();
     
 }

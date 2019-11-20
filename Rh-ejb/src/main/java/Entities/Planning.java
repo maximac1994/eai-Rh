@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Planning.findAll", query = "SELECT p FROM Planning p")
     , @NamedQuery(name = "Planning.findByIdFormateur", query = "SELECT p FROM Planning p WHERE p.planningPK.idFormateur = :idFormateur")
     , @NamedQuery(name = "Planning.findByJour", query = "SELECT p FROM Planning p WHERE p.planningPK.jour = :jour")
-    , @NamedQuery(name = "Planning.findByEtat", query = "SELECT p FROM Planning p WHERE p.etat = :etat")})
+    , @NamedQuery(name = "Planning.findByEtat", query = "SELECT p FROM Planning p WHERE p.etat = :etat")
+, @NamedQuery(name = "Planning.findByJourFormateur", query = "SELECT p FROM Planning p WHERE p.planningPK.jour = :jour AND p.planningPK.idFormateur = :idFormateur")})
 public class Planning implements Serializable {
 
     private static final long serialVersionUID = 1L;

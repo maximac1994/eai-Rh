@@ -6,6 +6,8 @@
 package senders;
 
 import MessagesTypes.ListeFormateursCompatibles;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -30,12 +32,10 @@ public class FileListeRessources {
     Destination dest = null;
     Session session = null;
     MessageProducer sender = null;
+    boolean connected = false;
     
-    public FileListeRessources(){
-        System.setProperty("java.naming.factory.initial",
-                "com.sun.enterprise.naming.SerialInitContextFactory");
-        System.setProperty("org.omg.CORBA.ORBInitialHost", "localhost");
-        System.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
+    public void connect(){
+        
         factoryName = "jms/__defaultConnectionFactory";
         destName = "FILE_LISTE_RESSOURCES";
         try{
@@ -46,29 +46,28 @@ public class FileListeRessources {
 
             // look up the Destination
             dest = (Destination) context.lookup(destName);
-
-            // create the connection
-            connection = factory.createConnection();
-
-            // create the session
-            session = connection.createSession(
-                    false, Session.AUTO_ACKNOWLEDGE);
-
-            // create the sender
-            sender = session.createProducer(dest);
-
-            // start the connection, to enable message sends
-            connection.start();
+           
         }catch (NamingException exception) {
-            exception.printStackTrace();
-        }catch (JMSException exception) {
             exception.printStackTrace();
         }
     }
+        
+    
     public void sendListeResources(ListeFormateursCompatibles liste){
+       if(!connected){
+       connect();
+       connected = true;
+       }
+        try {
+            connection = factory.createConnection();
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            sender = session.createProducer(dest);
+            connection.start();
+        } catch (JMSException ex) {
+            Logger.getLogger(FileListeRessources.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
        try {
-           System.out.println(liste.getFormateursCompatibles());
-           System.out.println(liste.getIdInstance());
             ObjectMessage om = session.createObjectMessage(liste);
             sender.send(om);
         } catch (JMSException exception) {
@@ -92,6 +91,11 @@ public class FileListeRessources {
                     exception.printStackTrace();
                 }
             }
+        }
+        try {
+            session.close();
+        } catch (JMSException ex) {
+            Logger.getLogger(FileListeRessources.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

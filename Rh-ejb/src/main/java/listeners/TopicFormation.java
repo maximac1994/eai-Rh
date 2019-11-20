@@ -51,14 +51,29 @@ public class TopicFormation implements MessageListener {
         if("annulation".equals(jmsType)){
             try {
                 EvenementFormationAnnulation efa = (EvenementFormationAnnulation)om.getObject();
-                gfl.changeState(efa,"ann");
+                gfl.removeState(efa);
             } catch (JMSException ex) {
                 Logger.getLogger(TopicFormation.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         if("validation".equals(jmsType)){
+            EvenementFormationAnnulation efa;
+            try {
+                efa = (EvenementFormationAnnulation)om.getObject();
+                gfl.changeState(efa, "pressenti");
+            } catch (JMSException ex) {
+                Logger.getLogger(TopicFormation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
         if("projet2".equals(jmsType)){
+            EvenementFormationAnnulation efa;
+            try {
+                efa = (EvenementFormationAnnulation)om.getObject();
+                gfl.changeState(efa, "projet");
+            } catch (JMSException ex) {
+                Logger.getLogger(TopicFormation.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
             
         

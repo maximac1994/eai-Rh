@@ -6,6 +6,9 @@
 package repositories;
 
 import Entities.Planning;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,4 +39,11 @@ public class PlanningFacade extends AbstractFacade<Planning> implements Planning
                 .getResultList());
     }
     
+    public List<Planning> getPlanningJourFormateur(Date jour,int idF){
+    List<Planning> liste = em.createNamedQuery("Planning.findByJourFormateur")
+                .setParameter("idFormateur", idF)
+                .setParameter("jour", jour)
+                .getResultList();
+    return liste;
+    }
 }
