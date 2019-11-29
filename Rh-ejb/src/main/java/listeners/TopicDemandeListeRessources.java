@@ -44,7 +44,7 @@ public class TopicDemandeListeRessources implements MessageListener {
         ObjectMessage om = (ObjectMessage)message;
         try {
             DemandeRessources dr = (DemandeRessources)om.getObject();
-            System.out.println("recu");
+            Logger.getLogger(TopicDemandeListeRessources.class.getName()).log(Level.INFO, "[APPLI RH] TopicDemandeListeRessourcesListener - onMessage() : " + dr.toString());
             gfl.sendListFormateurs(dr);
         } catch (JMSException ex) {
             Logger.getLogger(TopicDemandeListeRessources.class.getName()).log(Level.SEVERE, null, ex);
