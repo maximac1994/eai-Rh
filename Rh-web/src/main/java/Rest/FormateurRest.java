@@ -41,7 +41,7 @@ public class FormateurRest {
     Gson gson;
 
     public FormateurRest(){
-        this.gson = new Gson();
+       this.gson = new Gson();
        formateurService = lookupBanqueBeanLocal();
     }
     
@@ -61,8 +61,6 @@ public class FormateurRest {
     
     @DELETE
     public Response removeFormateur(@QueryParam("idFormateur") int idFormateur) {
-        
-        System.out.println("ca marche"+idFormateur);
         try {
             formateurService.removeFormateur(idFormateur);
         } catch (UnknownFormateurException ex) {

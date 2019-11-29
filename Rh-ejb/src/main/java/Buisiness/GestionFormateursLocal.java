@@ -7,7 +7,9 @@ package Buisiness;
 
 import Entities.Formateur;
 import MessagesTypes.DemandeRessources;
+import MessagesTypes.EvenementFormation;
 import MessagesTypes.EvenementFormationAnnulation;
+import MessagesTypes.EvenementFormationChangeEtat;
 import exceptions.UnknownFormateurException;
 import java.util.List;
 import javax.ejb.Local;
@@ -24,5 +26,5 @@ public interface GestionFormateursLocal {
     public void removeFormateur(int id)  throws UnknownFormateurException;
     public void sendListFormateurs(DemandeRessources dr);
     public void removeState(EvenementFormationAnnulation efa);
-    public void changeState(EvenementFormationAnnulation efa,String etat);
+    public void changeState(EvenementFormationChangeEtat efa,String etat);
 }

@@ -13,7 +13,9 @@ import Entities.Planning;
 import Entities.PlanningPK;
 import MessagesTypes.CompetenceNec;
 import MessagesTypes.DemandeRessources;
+import MessagesTypes.EvenementFormation;
 import MessagesTypes.EvenementFormationAnnulation;
+import MessagesTypes.EvenementFormationChangeEtat;
 import MessagesTypes.FormateurComp;
 import MessagesTypes.ListeFormateursCompatibles;
 import java.text.DateFormat;
@@ -126,7 +128,7 @@ public class GestionFormateurs implements GestionFormateursLocal {
     }
 
     @Override
-    public void changeState(EvenementFormationAnnulation efa,String etat) {
+    public void changeState(EvenementFormationChangeEtat efa,String etat) {
         Date dateJour = efa.getDateDebut();
         int days = efa.getDuree();
         while(days >0){

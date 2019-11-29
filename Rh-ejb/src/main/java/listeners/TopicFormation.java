@@ -7,6 +7,8 @@ package listeners;
 
 import Buisiness.GestionFormateursLocal;
 import MessagesTypes.EvenementFormationAnnulation;
+import MessagesTypes.EvenementFormationProjet2;
+import MessagesTypes.EvenementFormationValidation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
@@ -57,9 +59,9 @@ public class TopicFormation implements MessageListener {
             }
         }
         if("validation".equals(jmsType)){
-            EvenementFormationAnnulation efa;
+            EvenementFormationValidation efa;
             try {
-                efa = (EvenementFormationAnnulation)om.getObject();
+                efa = (EvenementFormationValidation)om.getObject();
                 gfl.changeState(efa, "pressenti");
             } catch (JMSException ex) {
                 Logger.getLogger(TopicFormation.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,9 +69,9 @@ public class TopicFormation implements MessageListener {
             
         }
         if("projet2".equals(jmsType)){
-            EvenementFormationAnnulation efa;
+            EvenementFormationProjet2 efa;
             try {
-                efa = (EvenementFormationAnnulation)om.getObject();
+                efa = (EvenementFormationProjet2)om.getObject();
                 gfl.changeState(efa, "projet");
             } catch (JMSException ex) {
                 Logger.getLogger(TopicFormation.class.getName()).log(Level.SEVERE, null, ex);
