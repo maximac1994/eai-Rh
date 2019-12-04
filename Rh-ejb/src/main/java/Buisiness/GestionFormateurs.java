@@ -13,7 +13,6 @@ import Entities.Planning;
 import Entities.PlanningPK;
 import MessagesTypes.CompetenceNec;
 import MessagesTypes.DemandeRessources;
-import MessagesTypes.EvenementFormation;
 import MessagesTypes.EvenementFormationAnnulation;
 import MessagesTypes.EvenementFormationChangeEtat;
 import MessagesTypes.FormateurComp;
@@ -23,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import repositories.FormateurFacadeLocal;
@@ -48,8 +49,11 @@ public class GestionFormateurs implements GestionFormateursLocal {
     
     FileListeRessources flr;
     
+    Logger logger;
+    
     public GestionFormateurs(){
         flr = new FileListeRessources();
+        logger = Logger.getLogger(this.getClass().getName());
     }
     @Override
     public List<Formateur> getFormateurs() {
@@ -58,6 +62,7 @@ public class GestionFormateurs implements GestionFormateursLocal {
     
     @Override
     public void addFormateur(String nom, String prenom, List<CompetenceResource> competences) {
+        logger.log(Level.INFO,"[RH] : ajout d'un formateur");
         Formateur f = new Formateur();
         f.setNomFormateur(nom);
         f.setPrenomFormateur(prenom);
@@ -78,6 +83,7 @@ public class GestionFormateurs implements GestionFormateursLocal {
 
     @Override
     public void removeFormateur(int id) throws UnknownFormateurException{
+      logger.log(Level.INFO,"[RH] : suppression d'un formateur");
       Formateur f = ffl.find(id);
       if(f==null){
           throw new UnknownFormateurException();
@@ -87,7 +93,7 @@ public class GestionFormateurs implements GestionFormateursLocal {
 
     @Override
     public void sendListFormateurs(DemandeRessources dr) {
-        
+        logger.log(Level.INFO,"[RH] (gestion) : envoi liste formateur");
         List<CompetenceNec> listeComp = dr.getCompetencesNecessaires();
         List<Niveau> nf = nfl.findAll();
         List<Formateur> lf = ffl.findAll();
@@ -119,6 +125,7 @@ public class GestionFormateurs implements GestionFormateursLocal {
     }
 
     private List<Date> getDateOccupees(FormateurComp fc) {
+        logger.log(Level.INFO,"[RH] : recuperation des dates occuppees");
         List<Planning> lp = pfl.getDatesOccupe(fc.getIdFormateur());
         List<Date> listeToReturn = new ArrayList<Date>();
         for(Planning p : lp){
@@ -129,16 +136,16 @@ public class GestionFormateurs implements GestionFormateursLocal {
 
     @Override
     public void changeState(EvenementFormationChangeEtat efa,String etat) {
+        logger.log(Level.INFO,"[RH] : changement de l'etat de la formation");
         Date dateJour = efa.getDateDebut();
         int days = efa.getDuree();
+        
         while(days >0){
             DateFormat df = new SimpleDateFormat("EEEE");
             String day = df.format(dateJour);
             if( (!"samedi".equals(day)) && (!"dimanche".equals(day))){
                 List<Planning> lp = pfl.getPlanningJourFormateur(dateJour, efa.getIdFormateur());
-                for(Planning p : lp){
-                    pfl.remove(p);
-                }
+                if(lp.isEmpty()){
                 Planning nP = new Planning();
                     nP.setEtat(etat);
                     PlanningPK pPK = new PlanningPK();
@@ -146,6 +153,10 @@ public class GestionFormateurs implements GestionFormateursLocal {
                     pPK.setJour(dateJour);
                     nP.setPlanningPK(pPK);
                     pfl.create(nP);
+                }else{
+                lp.get(0).setEtat(etat);
+                }
+                
                 days--;
                 
             }
@@ -156,6 +167,7 @@ public class GestionFormateurs implements GestionFormateursLocal {
 
     @Override
     public void removeState(EvenementFormationAnnulation efa) {
+        logger.log(Level.INFO,"[RH] : supression de l'état");
         Date dateJour = efa.getDateDebut();
         int days = efa.getDuree();
         while(days >0){
