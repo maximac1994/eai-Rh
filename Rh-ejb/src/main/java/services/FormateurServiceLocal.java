@@ -6,6 +6,7 @@
 package services;
 
 import Entities.Formateur;
+import exceptions.OccupedFormateurException;
 import exceptions.UnknownFormateurException;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,5 +20,5 @@ import resources.FormateurResource;
 public interface FormateurServiceLocal {
     public List<Formateur> getFormateurs();
     public void addFormateur(FormateurResource formateurResource);
-    public void removeFormateur(int id) throws  UnknownFormateurException;
+    public void removeFormateur(int id) throws  UnknownFormateurException,OccupedFormateurException;
 }

@@ -17,6 +17,7 @@ import MessagesTypes.EvenementFormationAnnulation;
 import MessagesTypes.EvenementFormationChangeEtat;
 import MessagesTypes.FormateurComp;
 import MessagesTypes.ListeFormateursCompatibles;
+import exceptions.OccupedFormateurException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,10 +82,13 @@ public class GestionFormateurs implements GestionFormateursLocal {
     }
 
     @Override
-    public void removeFormateur(int id) throws UnknownFormateurException {
+    public void removeFormateur(int id) throws UnknownFormateurException,OccupedFormateurException {
         logger.log(Level.INFO, "[RH] : suppression d'un formateur");
         Formateur f = ffl.find(id);
-        System.out.println("---- " + f);
+        List<Planning> pls = pfl.getDatesOccupe(id);
+        if(!pls.isEmpty()){
+           throw new OccupedFormateurException();
+        }
         if (f != null) {
             ffl.remove(f);
         } else {

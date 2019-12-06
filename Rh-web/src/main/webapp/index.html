@@ -58,6 +58,13 @@ and open the template in the editor.
             }
         </style>
         <script>
+            
+            $( document ).ready(function() {
+               $(".successMsg").html(window.localStorage.getItem("msg"));
+               window.localStorage.removeItem("msg");
+            });
+            
+            
             jQuery.when(
                     jQuery.getJSON("http://localhost:8080/Rh-web/webresources/formateur")
                     ).done(function (json) {
@@ -134,16 +141,21 @@ and open the template in the editor.
                 res.competences = competences;
 
 
-                postJson("http://localhost:8080/Rh-web/webresources/formateur", res, successAjout);
-                console.log(JSON.stringify(res));
+                postJson("http://localhost:8080/Rh-web/webresources/formateur", res, 
+                function( data ) {
+                window.localStorage.setItem("msg",data.responseText);
+                location.reload();
+});
+                
             }
             function supprForm(i) {
-                deleteForm("http://localhost:8080/Rh-web/webresources/formateur?idFormateur=" + i);
+                deleteForm("http://localhost:8080/Rh-web/webresources/formateur?idFormateur=" + i,function( data ) {
+                window.localStorage.setItem("msg",data.responseText);
+                location.reload();
+});
             }
 
-            function successAjout() {
-
-            }
+           
             function postJson(url, data, callback) {
                 return jQuery.ajax({
                     headers: {
@@ -152,19 +164,20 @@ and open the template in the editor.
                     type: 'POST',
                     url: url,
                     data: JSON.stringify(data),
-                    success: callback,
+                    complete : callback,
                     dataType: 'json'
                 });
             }
             ;
 
-            function deleteForm(url) {
+            function deleteForm(url,callback) {
                 return jQuery.ajax({
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     type: 'DELETE',
-                    url: url
+                    url: url,
+                    complete : callback
                 });
             }
             ;
@@ -172,6 +185,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class = "container-full">
+            <div class="successMsg"></div>
             <div class = "container">
                 <h2>Formateurs</h2>
                 <div id="formateurs"></div>
@@ -192,6 +206,7 @@ and open the template in the editor.
                 <br>
                 <button onClick="test()">valider</button>
             </div>
+            
         </div>
     </body>
 

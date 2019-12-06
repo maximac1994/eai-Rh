@@ -10,6 +10,7 @@ import MessagesTypes.DemandeRessources;
 import MessagesTypes.EvenementFormation;
 import MessagesTypes.EvenementFormationAnnulation;
 import MessagesTypes.EvenementFormationChangeEtat;
+import exceptions.OccupedFormateurException;
 import exceptions.UnknownFormateurException;
 import java.util.List;
 import javax.ejb.Local;
@@ -23,7 +24,7 @@ import resources.CompetenceResource;
 public interface GestionFormateursLocal {
     public List<Formateur> getFormateurs();
     public void addFormateur(String nom, String prenom,List<CompetenceResource> competences);
-    public void removeFormateur(int id) throws UnknownFormateurException;
+    public void removeFormateur(int id) throws UnknownFormateurException,OccupedFormateurException;
     public void sendListFormateurs(DemandeRessources dr);
     public void removeState(EvenementFormationAnnulation efa);
     public void changeState(EvenementFormationChangeEtat efa,String etat);

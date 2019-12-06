@@ -7,6 +7,7 @@ package services;
 
 import Buisiness.GestionFormateursLocal;
 import Entities.Formateur;
+import exceptions.OccupedFormateurException;
 import exceptions.UnknownFormateurException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,7 +35,7 @@ GestionFormateursLocal gfl;
     }
 
     @Override
-    public void removeFormateur(int id) throws  UnknownFormateurException{
+    public void removeFormateur(int id) throws  UnknownFormateurException,OccupedFormateurException{
         gfl.removeFormateur(id);
     }
 

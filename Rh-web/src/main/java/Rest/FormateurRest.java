@@ -7,6 +7,7 @@ package Rest;
 
 import Entities.Formateur;
 import com.google.gson.Gson;
+import exceptions.OccupedFormateurException;
 import exceptions.UnknownFormateurException;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,12 +62,12 @@ public class FormateurRest {
     
     @DELETE
     public Response removeFormateur(@QueryParam("idFormateur") int idFormateur) {
-        
-        System.out.println("[TESSSTTT "+idFormateur);
         try {
             formateurService.removeFormateur(idFormateur);
         } catch (UnknownFormateurException ex) {
             return Response.status(Response.Status.BAD_REQUEST).entity("le formateur n'existe pas").build();
+        } catch (OccupedFormateurException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("le formateur ne peut pas etre supprimé car il est occupé").build();
         }
         return Response.ok("Formateur supprimé avec succes").build();
     }
