@@ -14,20 +14,19 @@ and open the template in the editor.
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
         <style>
             body{
-                font: 1.2em "Fira Sans", sans-serif;
-                background-color: #0B0B0D;
-                color : #EEEEEE;
+               font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                background-color: #EEEEEE;
             }
             .container-full{
                 width: 700px;
-
                 margin-left : auto;
                 margin-right:auto;
             }
             .container{
-                background-color: #283740;
+                background-color: #FFFFFF;
                 padding: 15px;
                 margin-bottom:10px;
+                box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.75);
             }
             .libel{
                 font-weight: bold;
@@ -45,24 +44,55 @@ and open the template in the editor.
                 display: flex;
                 padding-bottom: 5px;
                 padding-top: 5px;
-                border-bottom: thick double #276B73;
+                border-bottom: 2px solid #5974FF;
             }
             .line-title{
                 display: flex;
                 margin-bottom : 15px;
+                background-color: #CEE8FE;
             }
             h2{
                 text-align: center;
                 margin-top : 5px!important;
-                background-color: #276B73;
+                text-transform: uppercase;
+                
             }
+            button{
+                background-color: #5974FF;
+                color : white;
+                border : none;
+                height : 25px;
+                border-radius: 9px 9px 9px 9px;
+                cursor: pointer;
+            }
+            .valider{
+                margin-top : 10px;
+            }
+            .successMsg{
+                background-color: #5974FF;
+                padding: 15px;
+                margin-bottom:10px;
+                box-shadow: 0px 0px 9px -2px rgba(0,0,0,0.75);
+            }
+            
         </style>
         <script>
             
             $( document ).ready(function() {
-               $(".successMsg").html(window.localStorage.getItem("msg"));
-               window.localStorage.removeItem("msg");
-            });
+                if(window.localStorage.getItem("msg")){
+                    $(".successMsgCont").html("<div class='successMsg'>"+window.localStorage.getItem("msg")+"</div>");
+              if(window.localStorage.getItem("status") == 200){
+                  $('.successMsg').css('background-color', '#A5EBA3');
+              }else{
+                  $('.successMsg').css('background-color', '#FFA68C');
+              }
+            
+            window.localStorage.removeItem("msg");
+               window.localStorage.removeItem("status");
+                }
+                }
+               
+            );
             
             
             jQuery.when(
@@ -111,7 +141,7 @@ and open the template in the editor.
                     html += "<div class='info'><input class='comp' type='checkbox' value='" + item.idCompetence + "'></div>";
                     html += "</div>";
                     html += "<div class='item'>";
-                    html += "<div class='info'><input class='niv-" + item.idCompetence + "' type='number' min='1' max='5'></div>";
+                    html += "<div class='info'><input class='niv-" + item.idCompetence + "' type='number' value = '1' min='1' max='5'></div>";
                     html += "</div>";
                     html += "</div>";
                 });
@@ -144,6 +174,7 @@ and open the template in the editor.
                 postJson("http://localhost:8080/Rh-web/webresources/formateur", res, 
                 function( data ) {
                 window.localStorage.setItem("msg",data.responseText);
+                window.localStorage.setItem("status",data.status);
                 location.reload();
 });
                 
@@ -151,6 +182,7 @@ and open the template in the editor.
             function supprForm(i) {
                 deleteForm("http://localhost:8080/Rh-web/webresources/formateur?idFormateur=" + i,function( data ) {
                 window.localStorage.setItem("msg",data.responseText);
+                window.localStorage.setItem("status",data.status);
                 location.reload();
 });
             }
@@ -185,7 +217,7 @@ and open the template in the editor.
     </head>
     <body>
         <div class = "container-full">
-            <div class="successMsg"></div>
+            <div class="successMsgCont"></div>
             <div class = "container">
                 <h2>Formateurs</h2>
                 <div id="formateurs"></div>
@@ -197,14 +229,18 @@ and open the template in the editor.
 
             <div class = "container">
                 <h2>Création d'une formation</h2>
-                <h3>Competences du formateur à ajouter </h3>
+                <div class="libel">Compétences du formateur</div>
                 <div id="competences"></div>
-                <h3>Nom du formateur à ajouter </h3>
+                <br>
+                <div class="libel">Nom du formateur</div>
+                <br>
                 <input type='text' id = "nom"/>
-                <h3>Prenom du formateur à ajouter </h3>
+                <br>
+               <div class="libel">Prénom du formateur</div>
+               <br>
                 <input type='text' id = "prenom"/>
                 <br>
-                <button onClick="test()">valider</button>
+                <button class="valider" onClick="test()">VALIDER</button>
             </div>
             
         </div>
