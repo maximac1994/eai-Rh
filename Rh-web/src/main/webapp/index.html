@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 
 <html>
-    
+
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -20,7 +20,7 @@ and open the template in the editor.
             }
             .container-full{
                 width: 700px;
-                
+
                 margin-left : auto;
                 margin-right:auto;
             }
@@ -58,139 +58,141 @@ and open the template in the editor.
             }
         </style>
         <script>
-        jQuery.when(
-        jQuery.getJSON("http://localhost:8080/Rh-web/webresources/formateur")
-        ).done( function(json) {
-            var html = "";
-            html+="<div class='line-title'>";
-            html+="<div class='item'>";
-            html+="<div class='libel'> Nom </div></div>";
-            html+="<div class='item'>";
-            html+="<div class='libel'> Prenom </div></div>";
-            html+="</div>";
-            json.forEach(function(item, index, array) {
-          html+="<div class='line'>";
-          html+="<div class='item'>";
-          html+="<div class='info'>"+ item.nomFormateur+ "</div>";
-          html+="</div>";
-          html+="<div class='item'>";
-          html+="<div class='info'>"+item.prenomFormateur+ "</div>";
-          html+="</div>";
-          html+="<div class='item'>";
-          html+="<button onClick='supprForm("+item.idFormateur+")'>SUPPRIMER</button>";
-          html+="</div>";
-          html+="</div>";
-        }
-           
-                );
-         html+="</div>"; 
-         $("#formateurs").prepend(html);
-        });
-        
-        jQuery.when(
-        jQuery.getJSON("http://localhost:8080/Rh-web/webresources/competence")
-        ).done( function(json) {
-            var html = "";
-        /*    html+="<div class='line-title'>";
-            html+="<div class='item'>";
-            html+="<div class='libel'> Nom </div></div>";
-            html+="</div>";*/
-            json.forEach(function(item, index, array) {
-          html+="<div class='line'>";
-          html+="<div class='item'>";
-          html+="<div class='info'>"+ item.nomCompetence+ "</div>";
-          html+="</div>";
-          html+="<div class='item'>";
-          html+="<div class='info'><input class='comp' type='checkbox' value='"+item.idCompetence+"'></div>";
-          html+="</div>";
-          html+="<div class='item'>";
-          html+="<div class='info'><input class='niv-"+item.idCompetence+"' type='number' min='1' max='5'></div>";
-          html+="</div>";
-          html+="</div>";
-        });
-        html+="</div>"; 
-         $("#competences").prepend(html);
-        });
-        
-        function test(){
-        var prenomFormateur = $('#prenom').val();
-        var nomFormateur = $('#nom').val();
-        var competences = new Array();
-        var inputElements = document.getElementsByClassName('comp');
-        
-        for(var i=0; i<inputElements.length; i++){
-        if(inputElements[i].checked){
-           var comp = {id : 1,niveau :1};
-           checkedValue = inputElements[i].value;
-           comp.id = checkedValue;
-           comp.niveau = $('.niv-'+inputElements[i].value).val();
-           competences.push(comp);
-        }
-        
-        }
-           var res= {nom : "",prenom : "",competences:[]};
-        res.nom=nomFormateur;
-        res.prenom = prenomFormateur;
-        res.competences = competences;
-        
-        
-        postJson("http://localhost:8080/Rh-web/webresources/formateur",res,successAjout);
-        console.log(JSON.stringify(res)); 
-        }
-        function supprForm(i){
-            deleteForm("http://localhost:8080/Rh-web/webresources/formateur?idFormateur="+i);
-        }
-        
-        function successAjout(){
-            
-        }
-         function postJson(url, data, callback) {
-    return jQuery.ajax({
-    headers: { 
-        'Content-Type': 'application/json' 
-    },
-    type: 'POST',
-    url: url,
-    data: JSON.stringify(data),
-    success: callback,
-  dataType: 'json'
-    });
-};   
+            jQuery.when(
+                    jQuery.getJSON("http://localhost:8080/Rh-web/webresources/formateur")
+                    ).done(function (json) {
+                var html = "";
+                html += "<div class='line-title'>";
+                html += "<div class='item'>";
+                html += "<div class='libel'> Nom </div></div>";
+                html += "<div class='item'>";
+                html += "<div class='libel'> Prenom </div></div>";
+                html += "</div>";
+                json.forEach(function (item, index, array) {
+                    html += "<div class='line'>";
+                    html += "<div class='item'>";
+                    html += "<div class='info'>" + item.nomFormateur + "</div>";
+                    html += "</div>";
+                    html += "<div class='item'>";
+                    html += "<div class='info'>" + item.prenomFormateur + "</div>";
+                    html += "</div>";
+                    html += "<div class='item'>";
+                    html += "<button onClick='supprForm(" + item.idFormateur + ")'>SUPPRIMER</button>";
+                    html += "</div>";
+                    html += "</div>";
+                }
 
-function deleteForm(url) {
-    return jQuery.ajax({
-    headers: { 
-        'Content-Type': 'application/json' 
-    },
-    type: 'DELETE',
-    url: url
-    });
-}; 
+                );
+                html += "</div>";
+                $("#formateurs").prepend(html);
+            });
+
+            jQuery.when(
+                    jQuery.getJSON("http://localhost:8080/Rh-web/webresources/competence")
+                    ).done(function (json) {
+                var html = "";
+                /*    html+="<div class='line-title'>";
+                 html+="<div class='item'>";
+                 html+="<div class='libel'> Nom </div></div>";
+                 html+="</div>";*/
+                json.forEach(function (item, index, array) {
+                    html += "<div class='line'>";
+                    html += "<div class='item'>";
+                    html += "<div class='info'>" + item.nomCompetence + "</div>";
+                    html += "</div>";
+                    html += "<div class='item'>";
+                    html += "<div class='info'><input class='comp' type='checkbox' value='" + item.idCompetence + "'></div>";
+                    html += "</div>";
+                    html += "<div class='item'>";
+                    html += "<div class='info'><input class='niv-" + item.idCompetence + "' type='number' min='1' max='5'></div>";
+                    html += "</div>";
+                    html += "</div>";
+                });
+                html += "</div>";
+                $("#competences").prepend(html);
+            });
+
+            function test() {
+                var prenomFormateur = $('#prenom').val();
+                var nomFormateur = $('#nom').val();
+                var competences = new Array();
+                var inputElements = document.getElementsByClassName('comp');
+
+                for (var i = 0; i < inputElements.length; i++) {
+                    if (inputElements[i].checked) {
+                        var comp = {id: 1, niveau: 1};
+                        checkedValue = inputElements[i].value;
+                        comp.id = checkedValue;
+                        comp.niveau = $('.niv-' + inputElements[i].value).val();
+                        competences.push(comp);
+                    }
+
+                }
+                var res = {nom: "", prenom: "", competences: []};
+                res.nom = nomFormateur;
+                res.prenom = prenomFormateur;
+                res.competences = competences;
+
+
+                postJson("http://localhost:8080/Rh-web/webresources/formateur", res, successAjout);
+                console.log(JSON.stringify(res));
+            }
+            function supprForm(i) {
+                deleteForm("http://localhost:8080/Rh-web/webresources/formateur?idFormateur=" + i);
+            }
+
+            function successAjout() {
+
+            }
+            function postJson(url, data, callback) {
+                return jQuery.ajax({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    type: 'POST',
+                    url: url,
+                    data: JSON.stringify(data),
+                    success: callback,
+                    dataType: 'json'
+                });
+            }
+            ;
+
+            function deleteForm(url) {
+                return jQuery.ajax({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    type: 'DELETE',
+                    url: url
+                });
+            }
+            ;
         </script>
     </head>
     <body>
         <div class = "container-full">
-        <div class = "container">
-        <h2>Formateurs</h2>
-        <div id="formateurs"></div>
-        </div>
-        
-        
-        
-        
-        
-         <div class = "container">
-        <h2>Création d'une formation</h2>
-        <h3>Competences du formateur à ajouter </h3>
-        <div id="competences"></div>
-         <h3>Nom du formateur à ajouter </h3>
-         <input type='text' id = "nom"/>
-          <h3>Prenom du formateur à ajouter </h3>
-         <input type='text' id = "prenom"/>
-         <br>
-         <button onClick="test()">valider</button>
-        </div>
+            <div class = "container">
+                <h2>Formateurs</h2>
+                <div id="formateurs"></div>
+            </div>
+
+
+
+
+
+            <div class = "container">
+                <h2>Création d'une formation</h2>
+                <h3>Competences du formateur à ajouter </h3>
+                <div id="competences"></div>
+                <h3>Nom du formateur à ajouter </h3>
+                <input type='text' id = "nom"/>
+                <h3>Prenom du formateur à ajouter </h3>
+                <input type='text' id = "prenom"/>
+                <br>
+                <button onClick="test()">valider</button>
+            </div>
         </div>
     </body>
-    
+
 </html>

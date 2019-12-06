@@ -23,7 +23,7 @@ import resources.CompetenceResource;
 public interface GestionFormateursLocal {
     public List<Formateur> getFormateurs();
     public void addFormateur(String nom, String prenom,List<CompetenceResource> competences);
-    public void removeFormateur(int id)  throws UnknownFormateurException;
+    public void removeFormateur(int id) throws UnknownFormateurException;
     public void sendListFormateurs(DemandeRessources dr);
     public void removeState(EvenementFormationAnnulation efa);
     public void changeState(EvenementFormationChangeEtat efa,String etat);
