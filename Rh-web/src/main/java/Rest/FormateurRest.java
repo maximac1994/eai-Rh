@@ -61,6 +61,8 @@ public class FormateurRest {
     
     @DELETE
     public Response removeFormateur(@QueryParam("idFormateur") int idFormateur) {
+        
+        System.out.println("[TESSSTTT "+idFormateur);
         try {
             formateurService.removeFormateur(idFormateur);
         } catch (UnknownFormateurException ex) {
