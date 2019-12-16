@@ -20,7 +20,7 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
 /**
- *
+ * topic formation
  * @author Maxime
  */
 @MessageDriven(activationConfig = {
@@ -37,9 +37,17 @@ import javax.jms.ObjectMessage;
 public class TopicFormation implements MessageListener {
     @EJB
     GestionFormateursLocal gfl;
+
+    /**
+     *
+     */
     public TopicFormation() {
     }
     
+    /**
+     * à chaque message, change l'etat des formtateurs selon l'evenement (ex : pressenti)
+     * @param message
+     */
     @Override
     public void onMessage(Message message) {
         ObjectMessage om = (ObjectMessage)message;

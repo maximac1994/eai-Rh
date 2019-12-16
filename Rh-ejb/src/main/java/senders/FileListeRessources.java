@@ -34,6 +34,9 @@ public class FileListeRessources {
     MessageProducer sender = null;
     boolean connected = false;
     
+    /**
+     * file liste ressources
+     */
     public void connect(){
         
         factoryName = "jms/__defaultConnectionFactory";
@@ -52,7 +55,10 @@ public class FileListeRessources {
         }
     }
         
-    
+    /**
+     * envoi une liste de formateurs compatibles à l'appli formation
+     * @param liste
+     */
     public void sendListeResources(ListeFormateursCompatibles liste){
        if(!connected){
        connect();

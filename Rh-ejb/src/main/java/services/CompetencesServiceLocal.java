@@ -10,11 +10,21 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * exposition des traitement de RH en REST
  * @author Maxime
  */
 @Local
 public interface CompetencesServiceLocal {
+
+    /**
+     * ajout competence
+     * @param nom
+     */
     public void addCompetence(String nom);
+
+    /**
+     * lister competences
+     * @return
+     */
     public List<Competence> getCompetences();
 }

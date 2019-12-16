@@ -10,11 +10,21 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
- *
+ * Gestion des compétences des formateurs
  * @author Maxime
  */
 @Local
 public interface GestionCompetencesLocal {
+
+    /**
+     * ajoute une compétence à la liste des competences possibles
+     * @param nom
+     */
     public void addCompetence(String nom);
+
+    /**
+     * liste toutes les compétences possibles
+     * @return
+     */
     public List<Competence> getCompetences();
 }

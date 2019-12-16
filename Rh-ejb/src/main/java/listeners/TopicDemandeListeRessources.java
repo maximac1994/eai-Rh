@@ -18,7 +18,7 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
 /**
- *
+ * Topic demande liste resource
  * @author Maxime
  */
 @MessageDriven(activationConfig = {
@@ -36,9 +36,16 @@ public class TopicDemandeListeRessources implements MessageListener {
     @EJB
     GestionFormateursLocal gfl;
     
+    /**
+     *
+     */
     public TopicDemandeListeRessources() {
     }
     
+    /**
+     * à chaque reception de message : envoi de la liste des formateurs correspondant aux criteres de la demande
+     * @param message
+     */
     @Override
     public void onMessage(Message message) {
         ObjectMessage om = (ObjectMessage)message;
